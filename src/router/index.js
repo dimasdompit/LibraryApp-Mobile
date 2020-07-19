@@ -1,0 +1,98 @@
+import React, {useState} from 'react';
+
+/* =============== REACT NAVIGATIONS =============== */
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import {connect} from 'react-redux';
+
+/* =============== STACK SCREENS =============== */
+import {Home, Profile, Login, Register, Details} from '../containers/screens';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+/* ====== HOME TABS ====== */
+const HomeTabs = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions={{activeTintColor: '#FDD978'}}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+/* ====== MAIN APP NAVIGATOR ====== */
+const AppNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName={Home}>
+      <Stack.Screen
+        name="HomeTabs"
+        component={HomeTabs}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="Details" component={Details} />
+    </Stack.Navigator>
+  );
+};
+
+/* ====== ROOT NAVIGATOR ====== */
+const RootNavigator = (props) => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={Login}>
+        {props.auth.isLoggedIn ? (
+          <>
+            <Stack.Screen
+              name="AppNavigator"
+              component={AppNavigator}
+              options={{headerShown: false}}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{headerShown: false}}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const mapDispatchToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapDispatchToProps)(RootNavigator);
