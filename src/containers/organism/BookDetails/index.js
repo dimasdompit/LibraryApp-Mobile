@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 import {withNavigation} from '@react-navigation/compat';
 import {connect} from 'react-redux';
-import {borrowBooks} from '../../../redux/actions/books';
+import {getAllBooks, borrowBooks} from '../../../redux/actions/books';
 
 import {API_URL} from '@env';
 
@@ -31,6 +31,7 @@ class BookDetails extends Component {
     this.props
       .borrowBooks(token, bookId, formData)
       .then(() => {
+        this.props.getAllBooks(token);
         this.props.navigation.navigate('DetailSuccess');
       })
       .catch((error) => {
@@ -39,7 +40,6 @@ class BookDetails extends Component {
   };
 
   render() {
-    console.log(this.state.bookId);
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -65,7 +65,6 @@ class BookDetails extends Component {
               {this.props.description}
             </Text>
           </View>
-
           <View>
             <Button
               title="Borrow"
@@ -77,10 +76,6 @@ class BookDetails extends Component {
               disabled={this.props.status === 'Not Available' ? true : false}
               buttonStyle={styles.btnBorrow}
               onPress={() => this.handleBorrow(this.props.id)}
-            />
-            <Button
-              title="Detail Success"
-              onPress={() => this.props.navigation.navigate('DetailSuccess')}
             />
           </View>
         </View>
@@ -94,7 +89,7 @@ const mapStateToProps = (state) => ({
   books: state.books,
 });
 
-const mapDispatchToProps = {borrowBooks};
+const mapDispatchToProps = {getAllBooks, borrowBooks};
 
 export default connect(
   mapStateToProps,

@@ -23,7 +23,6 @@ class Home extends Component {
 
   getAllBooks = () => {
     const token = this.props.auth.data.token;
-    console.log(this.props.books.data);
     this.props
       .getAllBooks(token)
       .then()

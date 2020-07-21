@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text} from 'react-native';
 import {Card, Button, Icon} from 'react-native-elements';
+import Moment from 'react-moment';
 
 import {connect} from 'react-redux';
 import {returnBooks} from '../../../redux/actions/books';
@@ -29,16 +30,22 @@ export class HistoryBorrow extends Component {
     return (
       <View>
         <Card containerStyle={{flex: 1, borderRadius: 20}}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 'bold',
-              color: '#838388',
-              alignSelf: 'flex-end',
-              marginBottom: 15,
-            }}>
-            Borrowed Date: {this.props.date}
-          </Text>
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: '#838388',
+                alignSelf: 'flex-end',
+                marginBottom: 15,
+              }}>
+              Borrowed Date:{' '}
+              <Moment element={Text} format="D MMM YYYY HH:mm">
+                {this.props.date}
+              </Moment>
+            </Text>
+          </View>
+
           <Text
             style={{
               textAlign: 'center',
