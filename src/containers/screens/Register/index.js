@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {connect} from 'react-redux';
+import {register} from '../../../redux/actions/auth';
 
 import {Image, Button, Input, Text} from 'react-native-elements';
 
@@ -8,9 +10,33 @@ import vectorImage from '../../../assets/images/vector2.png';
 // const {width: WIDTH} = Dimensions.get('window');
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      roles_id: 2,
+    };
   }
+
+  handleRegister = () => {
+    const data = {
+      username: this.state.username,
+      password: this.state.password,
+      roles_id: this.state.roles_id,
+    };
+
+    this.props
+      .register(data)
+      .then((response) => {
+        console.log(response);
+        alert('Register Success!');
+        setTimeout(() => {
+          this.props.navigation.navigate('Login');
+        }, 2500);
+      })
+      .catch((error) => console.log(error));
+  };
 
   render() {
     return (
@@ -31,6 +57,7 @@ class Register extends Component {
                 color: '#ffc62b',
               }}
               inputStyle={styles.input}
+              onChangeText={(text) => this.setState({username: text})}
             />
             <Input
               placeholder="Password"
@@ -41,6 +68,7 @@ class Register extends Component {
                 color: '#ffc62b',
               }}
               inputStyle={styles.input}
+              onChangeText={(text) => this.setState({password: text})}
             />
           </View>
 
@@ -54,8 +82,9 @@ class Register extends Component {
           <View>
             <Button
               title="Sign Up"
+              loading={this.props.auth.isLoading}
               buttonStyle={styles.btnRegister}
-              onPress={() => alert('DOMPIT GANTENG!')}
+              onPress={this.handleRegister}
             />
           </View>
 
@@ -155,4 +184,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {register};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

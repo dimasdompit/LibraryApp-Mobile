@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 /* =============== REACT NAVIGATIONS =============== */
 import {NavigationContainer} from '@react-navigation/native';
@@ -91,8 +91,9 @@ const RootNavigator = (props) => {
   );
 };
 
-const mapDispatchToProps = (state) => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
+  books: state.books,
 });
 
-export default connect(mapDispatchToProps)(RootNavigator);
+export default connect(mapStateToProps)(RootNavigator);

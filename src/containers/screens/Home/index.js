@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {View, ScrollView, Text} from 'react-native';
 
-import axios from 'axios';
 import {connect} from 'react-redux';
+import {getAllBooks} from '../../../redux/actions/books';
 
 // Components
 import BookSearch from '../../organism/BookSearch';
@@ -23,21 +23,16 @@ class Home extends Component {
 
   getAllBooks = () => {
     const token = this.props.auth.data.token;
-    axios({
-      method: 'GET',
-      url: 'http://192.168.43.85:3000/books',
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          books: response.data.data.result,
-        });
-      })
+    console.log(this.props.books.data);
+    this.props
+      .getAllBooks(token)
+      .then()
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+        // if (error.response.data.data === 'Token Expired!') {
+        // this.props.auth.isLoggedIn === false;
+        // this.props.navigation.navigate('Login');
+        // }
       });
   };
 
@@ -60,10 +55,7 @@ class Home extends Component {
               {/* ==== SEARCH BOOK BAR ==== */}
               <BookSearch value={search} onChangeText={this.updateSearch} />
               {/* ==== BANNER SLIDER ==== */}
-              <BookRecomended
-                books={this.state.books}
-                onPress={() => this.props.navigation.navigate('Details')}
-              />
+              <BookRecomended books={this.props.books.data.result} />
             </View>
             {/* =========== END OF TOP CONTENT =========== */}
 
@@ -96,7 +88,7 @@ class Home extends Component {
 
               {/* ===== SHOW ALL BOOKS ===== */}
               <View style={styles.allBooks}>
-                <BookList books={this.state.books} />
+                <BookList books={this.props.books.data.result} />
               </View>
             </View>
           </View>
@@ -108,6 +100,9 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  books: state.books,
 });
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = {getAllBooks};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

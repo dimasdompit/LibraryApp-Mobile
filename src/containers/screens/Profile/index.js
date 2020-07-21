@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import {styles} from './styles';
-
+import {connect} from 'react-redux';
+import {logout} from '../../../redux/actions/auth';
 // Components
 import HistoryBorrow from '../../organism/HistoryBorrow';
 import UserProfile from '../../organism/UserProfile';
-
 // Styles
 import Profile from '../../../assets/images/profile1.jpg';
+import {styles} from './styles';
 
 export class ProfileScreen extends Component {
   constructor(props) {
@@ -33,6 +33,11 @@ export class ProfileScreen extends Component {
       ],
     };
   }
+
+  handleLogout = () => {
+    this.props.logout();
+  };
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -40,6 +45,7 @@ export class ProfileScreen extends Component {
           username={this.state.username}
           image={Profile}
           role={this.state.role}
+          onPress={this.handleLogout}
         />
         <View style={styles.historyContainer}>
           <Text style={styles.historyHeading}>My History</Text>
@@ -63,4 +69,10 @@ export class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = {logout};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

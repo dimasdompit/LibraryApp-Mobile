@@ -14,3 +14,24 @@ export const login = (data) => {
     }),
   };
 };
+
+export const register = (data) => {
+  return {
+    type: 'REGISTER',
+    payload: axios({
+      method: 'POST',
+      url: `${API_URL}/auth/register`,
+      data: {
+        username: data.username,
+        password: data.password,
+        roles_id: data.roles_id,
+      },
+    }),
+  };
+};
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
+  };
+};

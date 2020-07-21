@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text} from 'react-native';
 import {ScrollView} from 'react-native';
+import {withNavigation} from '@react-navigation/compat'
 
 import BookBanner from '../../../components/molecules/BookBanner';
 
@@ -8,7 +9,7 @@ import {styles} from '../../../containers/screens/Home/styles';
 
 class BookRecomended extends Component {
   constructor(props) {
-    super();
+    super(props);
   }
 
   render() {
@@ -22,7 +23,9 @@ class BookRecomended extends Component {
                 key={book.id}
                 image={book.image}
                 style={styles.bannerImage}
-                onPress={this.props.onPress}
+                onPress={() =>
+                  this.props.navigation.navigate('Details', {id: book.id})
+                }
               />
             );
           })}
@@ -32,4 +35,4 @@ class BookRecomended extends Component {
   }
 }
 
-export default BookRecomended;
+export default withNavigation(BookRecomended);

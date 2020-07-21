@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Image, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {withNavigation} from '@react-navigation/compat';
+import {API_URL} from '@env';
 
 import {styles} from '../../../containers/screens/Home/styles';
 
@@ -18,14 +20,16 @@ class BookList extends Component {
           return (
             <TouchableOpacity
               key={book.id}
-              onPress={() => alert(`Book ID = ${book.id}`)}>
+              onPress={() =>
+                this.props.navigation.navigate('Details', {id: book.id})
+              }>
               <Card containerStyle={styles.cardAllBooks}>
                 <View style={styles.bookCards}>
                   <Image
                     style={styles.cardImage}
                     resizeMode="cover"
                     source={{
-                      uri: `http://192.168.43.85:3000/images/${book.image}`,
+                      uri: `${API_URL}/images/${book.image}`,
                     }}
                   />
                   <View style={styles.cardsTextContainer}>
@@ -45,4 +49,4 @@ class BookList extends Component {
   }
 }
 
-export default BookList;
+export default withNavigation(BookList);

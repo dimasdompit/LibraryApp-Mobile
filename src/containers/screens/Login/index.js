@@ -81,6 +81,7 @@ class Login extends Component {
               <Button
                 title="Sign In"
                 buttonStyle={styles.btnLogin}
+                loading={this.props.auth.isLoading}
                 onPress={this.handleLogin}
               />
             </View>

@@ -12,32 +12,25 @@ export class HistoryBorrow extends Component {
   render() {
     return (
       <View>
-        <Card>
+        <Card style={{flex: 1}}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 'bold',
+              color: '#838388',
+              alignSelf: 'flex-end',
+              marginBottom: 15,
+            }}>
+            Borrowed Date: {this.props.date}
+          </Text>
           <Text>Username: {this.props.users}</Text>
-          <Text>Book: {this.props.book}</Text>
-          <Text>Date: {this.props.date}</Text>
+          <Text>Borrowed Books: {this.props.book}</Text>
           {this.props.status === 'borrow' ? (
             <Button title="Return" onPress={() => alert('Button Return')} />
           ) : (
             <Text>Returned</Text>
           )}
         </Card>
-        {/* <FlatList
-          data={this.state.history}
-          renderItem={({users, book, created_at}) => (
-            <Card>
-              <Text>{`${users}`}</Text>
-              <Text>{`${book}`}</Text>
-              <Text>{`${created_at}`}</Text>
-              {history.history_status === 'borrow' ? (
-                <Button title="Return" />
-              ) : (
-                <Text>Returned</Text>
-              )}
-            </Card>
-          )}
-          keyExtractor={(history) => history.history_id}
-        /> */}
       </View>
     );
   }

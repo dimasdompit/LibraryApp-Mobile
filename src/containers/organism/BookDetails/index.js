@@ -4,16 +4,47 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 
+import {connect} from 'react-redux';
+import {borrowBooks} from '../../../redux/actions/books';
+
+import {API_URL} from '@env';
+
 class BookDetails extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      bookId: this.props.id,
+    };
   }
+
+  handleBorrow = (id) => {
+    const token = this.props.auth.data.token;
+    const bookId = this.props.id;
+    const userId = this.props.auth.data.id;
+
+    let formData = new FormData();
+    formData.append('book_id', bookId);
+    formData.append('user_id', userId);
+    formData.append('history_status', 'borrow');
+
+    this.props
+      .borrowBooks(token, bookId, formData)
+      .then()
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   render() {
+    console.log(this.state.bookId);
     return (
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.cardDetails}>
-            <Image source={{uri: this.props.image}} style={styles.image} />
+            <Image
+              source={{uri: `${API_URL}/images/${this.props.image}`}}
+              style={styles.image}
+            />
             <View style={styles.outerDetails}>
               <Text style={styles.titleDetails}>{this.props.title}</Text>
               <Text style={styles.authorDetails}>- {this.props.author} -</Text>
@@ -39,8 +70,9 @@ class BookDetails extends Component {
                 textTransform: 'uppercase',
                 fontFamily: 'SFProText-Bold',
               }}
+              disabled={this.props.status === 'Not Available' ? true : false}
               buttonStyle={styles.btnBorrow}
-              onPress={() => alert('Button Borrow')}
+              onPress={() => this.handleBorrow(this.props.id)}
             />
           </View>
         </View>
@@ -49,4 +81,11 @@ class BookDetails extends Component {
   }
 }
 
-export default BookDetails;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  books: state.books,
+});
+
+const mapDispatchToProps = {borrowBooks};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetails);
