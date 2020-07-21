@@ -8,7 +8,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {connect} from 'react-redux';
 
 /* =============== STACK SCREENS =============== */
-import {Home, Profile, Login, Register, Details} from '../containers/screens';
+import {
+  Home,
+  Profile,
+  Login,
+  Register,
+  Details,
+  DetailSuccess,
+} from '../containers/screens';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -55,6 +62,11 @@ const AppNavigator = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen
+        name="DetailSuccess"
+        component={DetailSuccess}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

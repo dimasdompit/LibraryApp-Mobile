@@ -4,6 +4,7 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 
+import {withNavigation} from '@react-navigation/compat';
 import {connect} from 'react-redux';
 import {borrowBooks} from '../../../redux/actions/books';
 
@@ -29,7 +30,9 @@ class BookDetails extends Component {
 
     this.props
       .borrowBooks(token, bookId, formData)
-      .then()
+      .then(() => {
+        this.props.navigation.navigate('DetailSuccess');
+      })
       .catch((error) => {
         console.log(error.response);
       });
@@ -70,9 +73,14 @@ class BookDetails extends Component {
                 textTransform: 'uppercase',
                 fontFamily: 'SFProText-Bold',
               }}
+              loading={this.props.books.isLoading}
               disabled={this.props.status === 'Not Available' ? true : false}
               buttonStyle={styles.btnBorrow}
               onPress={() => this.handleBorrow(this.props.id)}
+            />
+            <Button
+              title="Detail Success"
+              onPress={() => this.props.navigation.navigate('DetailSuccess')}
             />
           </View>
         </View>
@@ -88,4 +96,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {borrowBooks};
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetails);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(BookDetails));

@@ -85,6 +85,7 @@ const books = (state = initialState, action) => {
         isLoading: false,
         isError: false,
       };
+
     default:
       return state;
   }

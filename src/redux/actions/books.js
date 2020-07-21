@@ -40,3 +40,16 @@ export const borrowBooks = (token, id, data) => {
     }),
   };
 };
+
+export const returnBooks = (token, id) => {
+  return {
+    type: 'RETURNBOOKS',
+    payload: axios({
+      method: 'PUT',
+      url: `${API_URL}/books/return/${id}`,
+      headers: {
+        Authorization: token,
+      },
+    }),
+  };
+};
