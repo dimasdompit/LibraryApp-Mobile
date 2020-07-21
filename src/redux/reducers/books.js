@@ -86,6 +86,29 @@ const books = (state = initialState, action) => {
         isError: false,
       };
 
+    // Return Books
+    case 'RETURNBOOKS_PENDING':
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+
+    case 'RETURNBOOKS_REJECTED':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMsg: 'Data Rejected!',
+      };
+
+    case 'RETURNBOOKS_FULFILLED':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+
     default:
       return state;
   }

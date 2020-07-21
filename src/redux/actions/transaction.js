@@ -6,7 +6,7 @@ export const getUserHistory = (token, userId) => {
     type: 'GETUSERHISTORY',
     payload: axios({
       method: 'GET',
-      url: `${API_URL}books/history/${userId}`,
+      url: `${API_URL}/books/history/${userId}`,
       headers: {
         Authorization: token,
       },

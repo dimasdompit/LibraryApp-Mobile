@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, Image, FlatList} from 'react-native';
-import {Card, Button} from 'react-native-elements';
+import {Card, Button, Icon} from 'react-native-elements';
+
+import {connect} from 'react-redux';
+import {returnBooks} from '../../../redux/actions/books';
+import {withNavigation} from '@react-navigation/compat';
 
 import {styles} from '../../screens/Profile/styles';
 
@@ -9,10 +13,22 @@ export class HistoryBorrow extends Component {
     super(props);
   }
 
+  handleReturn = (id) => {
+    const token = this.props.auth.data.token;
+
+    this.props
+      .returnBooks(token, id)
+      .then((response) => {
+        this.props.navigation.navigate('ReturnSuccess');
+      })
+      .catch((error) => console.log(error));
+  };
+
   render() {
+    console.log(this.props);
     return (
       <View>
-        <Card style={{flex: 1}}>
+        <Card containerStyle={{flex: 1, borderRadius: 20}}>
           <Text
             style={{
               fontSize: 16,
@@ -23,12 +39,45 @@ export class HistoryBorrow extends Component {
             }}>
             Borrowed Date: {this.props.date}
           </Text>
-          <Text>Username: {this.props.users}</Text>
-          <Text>Borrowed Books: {this.props.book}</Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              marginBottom: 10,
+              fontStyle: 'italic',
+            }}>
+            {this.props.users}
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginBottom: 10,
+            }}>
+            <Text style={{fontWeight: '100', color: '#838388'}}>
+              Borrowed Books:
+            </Text>{' '}
+            {this.props.book}
+          </Text>
           {this.props.status === 'borrow' ? (
-            <Button title="Return" onPress={() => alert('Button Return')} />
+            <Button
+              buttonStyle={{backgroundColor: '#f9c12d'}}
+              title="Return"
+              onPress={() => this.handleReturn(this.props.historyId)}
+            />
           ) : (
-            <Text>Returned</Text>
+            <View
+              style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+              <Icon name="check" type="font-awesome" color="green" />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  color: 'green',
+                  fontStyle: 'italic',
+                }}>
+                Returned
+              </Text>
+            </View>
           )}
         </Card>
       </View>
@@ -36,4 +85,14 @@ export class HistoryBorrow extends Component {
   }
 }
 
-export default HistoryBorrow;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  books: state.books,
+});
+
+const mapDispatchToProps = {returnBooks};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(HistoryBorrow));

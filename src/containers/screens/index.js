@@ -4,5 +4,6 @@ import Register from './Register';
 import Profile from './Profile';
 import Details from './Details';
 import DetailSuccess from './DetailSuccess';
+import ReturnSuccess from './ReturnSuccess';
 
-export {Home, Login, Register, Profile, Details, DetailSuccess};
+export {Home, Login, Register, Profile, Details, DetailSuccess, ReturnSuccess};

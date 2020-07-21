@@ -15,6 +15,7 @@ import {
   Register,
   Details,
   DetailSuccess,
+  ReturnSuccess,
 } from '../containers/screens';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -65,6 +66,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="DetailSuccess"
         component={DetailSuccess}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ReturnSuccess"
+        component={ReturnSuccess}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

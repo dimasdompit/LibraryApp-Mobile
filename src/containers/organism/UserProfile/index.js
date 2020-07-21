@@ -24,7 +24,7 @@ class UserProfile extends Component {
           size="xlarge"
           source={this.props.image}
           rounded
-          title={this.props.username.substring(0, 1)}
+          // title={this.props.username.substring(0, 1)}
           titleStyle={{textTransform: 'uppercase'}}
           activeOpacity={0.7}
         />

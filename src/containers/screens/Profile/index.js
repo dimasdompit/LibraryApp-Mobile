@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {logout} from '../../../redux/actions/auth';
+import {getUserHistory} from '../../../redux/actions/transaction';
 // Components
 import HistoryBorrow from '../../organism/HistoryBorrow';
 import UserProfile from '../../organism/UserProfile';
@@ -13,38 +14,43 @@ export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'dimasdoms',
-      role: 'user',
-      history: [
-        {
-          history_id: '1',
-          users: 'dimasdoms',
-          book: 'Harry Potter and the Prisoner of Azkaban',
-          created_at: '17 July 2020',
-          history_status: 'borrow',
-        },
-        {
-          history_id: '2',
-          users: 'dimasdoms',
-          book: 'Murder on the Orient Express',
-          created_at: '20 July 2020',
-          history_status: 'return',
-        },
-      ],
+      history: [],
     };
   }
+
+  getHistory = () => {
+    const token = this.props.auth.data.token;
+    const userId = this.props.auth.data.id;
+
+    this.props
+      .getUserHistory(token, userId)
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          history: response.value.data.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   handleLogout = () => {
     this.props.logout();
   };
 
+  componentDidMount() {
+    this.getHistory();
+  }
+
   render() {
+    console.log(this.props.auth.data.id);
     return (
       <ScrollView style={styles.container}>
         <UserProfile
-          username={this.state.username}
+          username={this.props.auth.data.username}
           image={Profile}
-          role={this.state.role}
+          role={this.props.auth.data.roles}
           onPress={this.handleLogout}
         />
         <View style={styles.historyContainer}>
@@ -56,6 +62,7 @@ export class ProfileScreen extends Component {
               return (
                 <HistoryBorrow
                   key={history.history_id}
+                  historyId={history.history_id}
                   users={history.users}
                   book={history.book}
                   date={history.created_at}
@@ -71,8 +78,9 @@ export class ProfileScreen extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  transaction: state.transaction,
 });
 
-const mapDispatchToProps = {logout};
+const mapDispatchToProps = {logout, getUserHistory};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
