@@ -105,6 +105,7 @@ class Home extends Component {
                     <Picker.Item label="Genre" value="genre" />
                   </Picker>
                 </View>
+
                 <View style={styles.itemsOrder}>
                   <Picker
                     mode="dropdown"

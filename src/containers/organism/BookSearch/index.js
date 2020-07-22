@@ -16,6 +16,7 @@ class BookSearch extends Component {
         lightTheme
         inputContainerStyle={{
           backgroundColor: '#eee',
+          borderRadius: 50,
           shadowColor: '#FDD978',
           shadowOffset: {
             width: 0,
@@ -31,6 +32,7 @@ class BookSearch extends Component {
           borderTopColor: '#f9f9f9',
           marginTop: 20,
           paddingHorizontal: 20,
+          paddingBottom: 25,
         }}
       />
     );
