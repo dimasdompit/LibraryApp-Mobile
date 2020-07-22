@@ -84,8 +84,6 @@ class Home extends Component {
                 <View style={styles.itemsSort}>
                   <Picker
                     mode="dropdown"
-                    style={{textAlign: 'center'}}
-                    itemStyle={{textAlign: 'center'}}
                     selectedValue={this.state.sortBy}
                     onValueChange={async (value) => {
                       await this.setState({sortBy: value});
@@ -98,7 +96,7 @@ class Home extends Component {
                         });
                       });
                     }}>
-                    <Picker.Item label="-- Sort By --" value="" />
+                    <Picker.Item label="-- All Categories --" value="" />
                     <Picker.Item label="Title" value="title" />
                     <Picker.Item label="Status" value="status" />
                     <Picker.Item label="Author" value="author" />
@@ -122,7 +120,7 @@ class Home extends Component {
                         });
                       });
                     }}>
-                    <Picker.Item label="-- Order By --" value="" />
+                    <Picker.Item label="-- All Times --" value="" />
                     <Picker.Item label="A - Z" value="ASC" />
                     <Picker.Item label="Z - A" value="DESC" />
                   </Picker>

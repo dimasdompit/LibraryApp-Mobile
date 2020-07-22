@@ -16,6 +16,9 @@ import {
   Details,
   DetailSuccess,
   ReturnSuccess,
+  Dashboard,
+  ManageBooks,
+  AddBooks,
 } from '../containers/screens';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -49,6 +52,16 @@ const HomeTabs = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarLabel: 'Dashboard',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="book" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -71,6 +84,16 @@ const AppNavigator = () => {
       <Stack.Screen
         name="ReturnSuccess"
         component={ReturnSuccess}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ManageBooks"
+        component={ManageBooks}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddBooks"
+        component={AddBooks}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
