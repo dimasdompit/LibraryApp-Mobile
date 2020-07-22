@@ -73,9 +73,17 @@ export const styles = StyleSheet.create({
     color: '#838388',
   },
 
-  itemsContainer: {
-    flexDirection: 'row',
+  itemsSort: {
     justifyContent: 'center',
+    backgroundColor: '#f9f9f9',
+    borderRadius: 15,
+    marginBottom: 10,
+  },
+
+  itemsOrder: {
+    justifyContent: 'center',
+    backgroundColor: '#f9f9f9',
+    borderRadius: 15,
   },
 
   itemsCategories: {

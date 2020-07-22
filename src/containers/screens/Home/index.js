@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, ScrollView, Text} from 'react-native';
+import {Picker} from '@react-native-community/picker';
 
 import {connect} from 'react-redux';
 import {getAllBooks} from '../../../redux/actions/books';
@@ -18,16 +19,18 @@ class Home extends Component {
     this.state = {
       books: this.props.books.data.result || 'Not Found',
       search: '',
+      sortBy: '',
+      sortType: '',
     };
   }
 
-  getAllBooks = async (search, sort, page) => {
+  getAllBooks = async (search, sortBy, sortType, page) => {
     const token = this.props.auth.data.token;
     await this.props
-      .getAllBooks(token, search, sort, page)
+      .getAllBooks(token, search, sortBy, sortType, page)
       .then((response) => {
         this.setState({
-          books: response.value.data.data.result,
+          books: this.props.books.data.result,
         });
       })
       .catch((error) => {
@@ -45,9 +48,9 @@ class Home extends Component {
 
   updateSearch = () => {
     this.getAllBooks(this.state.search)
-      .then(() => {
+      .then((response) => {
         this.setState({
-          books: this.props.books.data.result,
+          books: response.value.data.data.result,
         });
       })
       .catch((error) => console.log(error));
@@ -77,35 +80,58 @@ class Home extends Component {
             <View style={styles.mainContent}>
               {/* ===== CATEGORIES ===== */}
               <View style={styles.categories}>
-                <Text style={styles.textCategories}>Categories</Text>
-                <View style={styles.itemsContainer}>
-                  <ItemCategories
-                    name="Title"
-                    icon="heading"
-                    color="#C6A0FC"
-                    onPress={() => alert('item categories')}
-                  />
-                  <ItemCategories
-                    name="Author"
-                    icon="at"
-                    color="#89CFF9"
-                    onPress={() => alert('item categories')}
-                  />
-                  <ItemCategories
-                    name="Genre"
-                    color="#B3DF58"
-                    icon="genderless"
-                    onPress={() => alert('item categories')}
-                  />
+                <Text style={styles.textCategories}>Filtered by :</Text>
+                <View style={styles.itemsSort}>
+                  <Picker
+                    mode="dropdown"
+                    style={{textAlign: 'center'}}
+                    itemStyle={{textAlign: 'center'}}
+                    selectedValue={this.state.sortBy}
+                    onValueChange={async (value) => {
+                      await this.setState({sortBy: value});
+                      this.getAllBooks(
+                        this.state.search,
+                        this.state.sortBy,
+                      ).then(() => {
+                        this.setState({
+                          books: this.props.books.data.result,
+                        });
+                      });
+                    }}>
+                    <Picker.Item label="-- Sort By --" value="" />
+                    <Picker.Item label="Title" value="title" />
+                    <Picker.Item label="Status" value="status" />
+                    <Picker.Item label="Author" value="author" />
+                    <Picker.Item label="Genre" value="genre" />
+                  </Picker>
+                </View>
+                <View style={styles.itemsOrder}>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.sortType}
+                    onValueChange={async (value) => {
+                      await this.setState({sortType: value});
+                      this.getAllBooks(
+                        this.state.search,
+                        this.state.sortBy,
+                        this.state.sortType,
+                      ).then(() => {
+                        this.setState({
+                          books: this.props.books.data.result,
+                        });
+                      });
+                    }}>
+                    <Picker.Item label="-- Order By --" value="" />
+                    <Picker.Item label="A - Z" value="ASC" />
+                    <Picker.Item label="Z - A" value="DESC" />
+                  </Picker>
                 </View>
               </View>
 
               {/* ===== SHOW ALL BOOKS ===== */}
               <View style={styles.allBooks}>
-                {this.state.books !== 'Not Found' ? (
-                  this.state.books ? (
-                    <BookList books={this.state.books} />
-                  ) : null
+                {this.state.books ? (
+                  <BookList books={this.state.books} />
                 ) : (
                   <View>
                     <Text>Not Found</Text>

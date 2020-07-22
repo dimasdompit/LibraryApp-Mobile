@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {REACT_API_URL} from '@env';
 
-export const getAllBooks = (token, search, sort, order, page) => {
+export const getAllBooks = (token, search, sortBy, sortType, page) => {
   return {
     type: 'GETALLBOOKS',
     payload: axios({
@@ -9,8 +9,8 @@ export const getAllBooks = (token, search, sort, order, page) => {
       url: `${REACT_API_URL}/books/`,
       params: {
         search: search,
-        sort: sort || 'recent',
-        order: order,
+        sortBy: sortBy || 'created_at',
+        sortType: sortType || 'DESC',
         page: page || 1,
       },
       headers: {
