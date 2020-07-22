@@ -10,6 +10,7 @@ class BookSearch extends Component {
       <SearchBar
         placeholder="Search book here..."
         onChangeText={this.props.onChangeText}
+        onBlur={this.props.onBlur}
         value={this.props.value}
         round
         lightTheme

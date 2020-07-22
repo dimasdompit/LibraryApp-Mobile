@@ -8,16 +8,15 @@ class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
+      books: this.props.books.data.result,
     };
   }
 
-  getDetails = () => {
-    console.log(this.props.route.params.id);
+  getDetails = async () => {
     const token = this.props.auth.data.token;
     const id = this.props.route.params.id;
 
-    this.props.getBookDetails(token, id).then((response) => {
+    await this.props.getBookDetails(token, id).then((response) => {
       console.log(response);
       this.setState({
         books: response.value.data.data[0],

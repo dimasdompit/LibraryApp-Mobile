@@ -19,14 +19,14 @@ class Register extends Component {
     };
   }
 
-  handleRegister = () => {
+  handleRegister = async () => {
     const data = {
       username: this.state.username,
       password: this.state.password,
       roles_id: this.state.roles_id,
     };
 
-    this.props
+    await this.props
       .register(data)
       .then((response) => {
         console.log(response);

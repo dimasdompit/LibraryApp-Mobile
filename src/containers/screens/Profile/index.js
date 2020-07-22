@@ -3,6 +3,7 @@ import {View, Text, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {logout} from '../../../redux/actions/auth';
 import {getUserHistory} from '../../../redux/actions/transaction';
+import {returnBooks} from '../../../redux/actions/books';
 // Components
 import HistoryBorrow from '../../organism/HistoryBorrow';
 import UserProfile from '../../organism/UserProfile';
@@ -35,6 +36,17 @@ export class ProfileScreen extends Component {
       });
   };
 
+  handleReturn = (id) => {
+    const token = this.props.auth.data.token;
+
+    this.props
+      .returnBooks(token, id)
+      .then((response) => {
+        this.props.navigation.navigate('ReturnSuccess');
+      })
+      .catch((error) => console.log(error));
+  };
+
   handleLogout = () => {
     this.props.logout();
   };
@@ -44,7 +56,6 @@ export class ProfileScreen extends Component {
   }
 
   render() {
-    console.log(this.props.auth.data.id);
     return (
       <ScrollView style={styles.container}>
         <UserProfile
@@ -67,6 +78,7 @@ export class ProfileScreen extends Component {
                   book={history.book}
                   date={history.created_at}
                   status={history.history_status}
+                  onPress={() => this.handleReturn(history.history_id)}
                 />
               );
             })}
@@ -79,8 +91,9 @@ export class ProfileScreen extends Component {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   transaction: state.transaction,
+  books: state.books,
 });
 
-const mapDispatchToProps = {logout, getUserHistory};
+const mapDispatchToProps = {logout, getUserHistory, returnBooks};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

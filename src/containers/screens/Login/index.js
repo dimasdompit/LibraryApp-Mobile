@@ -4,6 +4,7 @@ import {View, ScrollView, Dimensions, AsyncStorage} from 'react-native';
 /* ===================== REDUX CONFIG SETUP ===================== */
 import {connect} from 'react-redux';
 import {login} from '../../../redux/actions/auth';
+import {API_URL} from '@env';
 
 import {Image, Button, Input, Text} from 'react-native-elements';
 
@@ -20,18 +21,19 @@ class Login extends Component {
     };
   }
 
-  handleLogin = () => {
+  handleLogin = async () => {
     const data = {
       username: this.state.username,
       password: this.state.password,
     };
 
-    this.props
+    await this.props
       .login(data)
-      .then((response) => {
-        // console.log(response);
-      })
-      .catch((error) => console.log(error));
+      .then()
+      .catch((error) => {
+        console.log(error);
+        alert('Incorrect Username or Password');
+      });
   };
 
   render() {

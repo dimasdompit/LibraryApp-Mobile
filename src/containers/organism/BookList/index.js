@@ -3,7 +3,7 @@ import {View, Image, Text} from 'react-native';
 import {Card} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {withNavigation} from '@react-navigation/compat';
-import {API_URL} from '@env';
+import {REACT_API_URL} from '@env';
 
 import {styles} from '../../../containers/screens/Home/styles';
 
@@ -29,7 +29,7 @@ class BookList extends Component {
                     style={styles.cardImage}
                     resizeMode="cover"
                     source={{
-                      uri: `${API_URL}/images/${book.image}`,
+                      uri: `${REACT_API_URL}/images/${book.image}`,
                     }}
                   />
                   <View style={styles.cardsTextContainer}>

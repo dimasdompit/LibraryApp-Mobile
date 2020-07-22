@@ -8,7 +8,7 @@ import {withNavigation} from '@react-navigation/compat';
 import {connect} from 'react-redux';
 import {getAllBooks, borrowBooks} from '../../../redux/actions/books';
 
-import {API_URL} from '@env';
+import {REACT_API_URL} from '@env';
 
 class BookDetails extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class BookDetails extends Component {
         <View style={styles.container}>
           <View style={styles.cardDetails}>
             <Image
-              source={{uri: `${API_URL}/images/${this.props.image}`}}
+              source={{uri: `${REACT_API_URL}/images/${this.props.image}`}}
               style={styles.image}
             />
             <View style={styles.outerDetails}>

@@ -14,19 +14,18 @@ export class HistoryBorrow extends Component {
     super(props);
   }
 
-  handleReturn = (id) => {
-    const token = this.props.auth.data.token;
+  // handleReturn = (id) => {
+  //   const token = this.props.auth.data.token;
 
-    this.props
-      .returnBooks(token, id)
-      .then((response) => {
-        this.props.navigation.navigate('ReturnSuccess');
-      })
-      .catch((error) => console.log(error));
-  };
+  //   this.props
+  //     .returnBooks(token, id)
+  //     .then((response) => {
+  //       this.props.navigation.navigate('ReturnSuccess');
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   render() {
-    console.log(this.props);
     return (
       <View>
         <Card containerStyle={{flex: 1, borderRadius: 20}}>
@@ -69,7 +68,8 @@ export class HistoryBorrow extends Component {
             <Button
               buttonStyle={{backgroundColor: '#f9c12d'}}
               title="Return"
-              onPress={() => this.handleReturn(this.props.historyId)}
+              // onPress={() => this.handleReturn(this.props.historyId)}
+              onPress={this.props.onPress}
             />
           ) : (
             <View

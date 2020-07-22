@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {styles} from '../../../containers/screens/Home/styles';
+import {REACT_API_URL} from '@env';
 
 export class BookBanner extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export class BookBanner extends Component {
         <View>
           <Image
             source={{
-              uri: `http://192.168.43.85:3000/images/${this.props.image}`,
+              uri: `${REACT_API_URL}/images/${this.props.image}`,
             }}
             style={this.props.style}
           />

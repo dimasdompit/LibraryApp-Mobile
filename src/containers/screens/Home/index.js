@@ -16,16 +16,20 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
+      books: this.props.books.data.result || 'Not Found',
       search: '',
     };
   }
 
-  getAllBooks = () => {
+  getAllBooks = async (search, sort, page) => {
     const token = this.props.auth.data.token;
-    this.props
-      .getAllBooks(token)
-      .then()
+    await this.props
+      .getAllBooks(token, search, sort, page)
+      .then((response) => {
+        this.setState({
+          books: response.value.data.data.result,
+        });
+      })
       .catch((error) => {
         console.log(error.response);
         // if (error.response.data.data === 'Token Expired!') {
@@ -35,16 +39,21 @@ class Home extends Component {
       });
   };
 
-  updateSearch = (search) => {
-    this.setState({search});
-  };
-
   componentDidMount() {
     this.getAllBooks();
   }
 
+  updateSearch = () => {
+    this.getAllBooks(this.state.search)
+      .then(() => {
+        this.setState({
+          books: this.props.books.data.result,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   render() {
-    const {search} = this.state;
     return (
       <>
         <ScrollView>
@@ -52,9 +61,15 @@ class Home extends Component {
             {/* =========== TOP CONTENT =========== */}
             <View style={styles.topContent}>
               {/* ==== SEARCH BOOK BAR ==== */}
-              <BookSearch value={search} onChangeText={this.updateSearch} />
+              <BookSearch
+                value={this.state.search}
+                onChangeText={(search) => this.setState({search: search})}
+                onBlur={() => {
+                  this.updateSearch();
+                }}
+              />
               {/* ==== BANNER SLIDER ==== */}
-              <BookRecomended books={this.props.books.data.result} />
+              {/* <BookRecomended books={this.state.books} /> */}
             </View>
             {/* =========== END OF TOP CONTENT =========== */}
 
@@ -87,7 +102,15 @@ class Home extends Component {
 
               {/* ===== SHOW ALL BOOKS ===== */}
               <View style={styles.allBooks}>
-                <BookList books={this.props.books.data.result} />
+                {this.state.books !== 'Not Found' ? (
+                  this.state.books ? (
+                    <BookList books={this.state.books} />
+                  ) : null
+                ) : (
+                  <View>
+                    <Text>Not Found</Text>
+                  </View>
+                )}
               </View>
             </View>
           </View>
