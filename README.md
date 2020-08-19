@@ -2,9 +2,9 @@
 
 ### Library Mobile Apps with React Native.
 
-![React Native](https://i.imgur.com/1Nq19be.png)
+![React Native](https://i.imgur.com/TTZZEGy.jpg)
 
-[React Native](https://reactnative.dev/) (React Native) is an exciting framework that enables web developers to create robust mobile applications using their existing JavaScript knowledge. It offers faster mobile development, and more efficient code sharing across iOS, Android, and the Web, without sacrificing the end user's experience or application quality.
+[React Native](https://reactnative.dev/) is an exciting framework that enables web developers to create robust mobile applications using their existing JavaScript knowledge. It offers faster mobile development, and more efficient code sharing across iOS, Android, and the Web, without sacrificing the end user's experience or application quality.
 
 ## Guide to Installation
 
@@ -37,15 +37,15 @@ $ npm install
 #### Setting up the development environment
 
 You can see how to setup development enviroment installation here :
-[_React Native_ setup installation](https://reactnative.dev/docs/environment-setup)
+https://reactnative.dev/docs/environment-setup
 
 And then run the app using :
 
 ```
-$ npm start
+$ react-native run-android
 ```
 
-The page will reload if you make edits.
+The screen will reload if you make edits.
 You will also see any lint errors in Metro Server.
 
 #### Package Dependencies
@@ -105,6 +105,22 @@ You will also see any lint errors in Metro Server.
 
 ## License
 
-[MIT License]()
+[MIT License](https://github.com/dimasdompit/LibraryApp-Mobile/blob/master/LICENSE)
 
 ## Screenshot
+
+#### - Login Screen -
+
+![](https://i.imgur.com/0ycPOYf.jpg)
+
+#### - Home Screen -
+
+![](https://i.imgur.com/XZAbw23.jpg)
+
+#### - User Profile Screen -
+
+![](https://i.imgur.com/l2fJZ3W.jpg)
+
+#### - Dashboard Screen -
+
+![](https://i.imgur.com/FRMq8UQ.jpg)
