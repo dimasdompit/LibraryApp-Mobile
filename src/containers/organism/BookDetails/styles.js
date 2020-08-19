@@ -86,18 +86,20 @@ export const styles = StyleSheet.create({
   },
 
   descriptionDetails: {
+    // flex: 1,
     fontFamily: 'SFProText-Semibold',
     fontSize: 15,
     paddingTop: 10,
     letterSpacing: -0.7,
-    color: '#838388',
+    // color: '#838388',
   },
 
   btnBorrow: {
-    width: 300,
+    // width: 300,
+    marginHorizontal: 20,
     backgroundColor: '#FDD978',
     borderRadius: 10,
-    marginVertical: 20,
-    alignSelf: 'center',
+    // marginVertical: 20,
+    // alignSelf: 'center',
   },
 });

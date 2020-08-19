@@ -3,7 +3,8 @@ import {View, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Button, Card, Image} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {REACT_API_URL} from '@env';
+// import {REACT_API_URL} from '@env';
+import {config} from '../../../config/baseUrl';
 
 import {connect} from 'react-redux';
 
@@ -50,7 +51,7 @@ class ManageBooks extends Component {
                     flexDirection: 'row',
                   }}>
                   <Image
-                    source={{uri: `${REACT_API_URL}/images/${book.image}`}}
+                    source={{uri: `${config.api_url}/images/${book.image}`}}
                     style={{
                       height: 150,
                       width: 100,
@@ -92,6 +93,14 @@ class ManageBooks extends Component {
                       flex: 1,
                       paddingRight: 10,
                     }}
+                    icon={
+                      <Icon
+                        name="edit"
+                        size={20}
+                        color="white"
+                        style={{alignItems: 'center', marginRight: 2}}
+                      />
+                    }
                     buttonStyle={{
                       backgroundColor: '#f9c12d',
                     }}
@@ -100,6 +109,14 @@ class ManageBooks extends Component {
                   <Button
                     title="Delete"
                     containerStyle={{flex: 1}}
+                    icon={
+                      <Icon
+                        name="trash"
+                        size={20}
+                        color="white"
+                        style={{alignItems: 'center', marginRight: 2}}
+                      />
+                    }
                     buttonStyle={{
                       backgroundColor: 'red',
                     }}

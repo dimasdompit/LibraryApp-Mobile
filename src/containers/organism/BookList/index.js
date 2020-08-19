@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, FlatList} from 'react-native';
 import {Card} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {withNavigation} from '@react-navigation/compat';
-import {REACT_API_URL} from '@env';
+// import {REACT_API_URL} from '@env';
+import {config} from '../../../config/baseUrl';
 
 import {styles} from '../../../containers/screens/Home/styles';
 
@@ -16,7 +17,8 @@ class BookList extends Component {
     return (
       <>
         <Text style={styles.headingAllBooks}>Book List</Text>
-        {this.props.books.map((book) => {
+
+        {this.props.books.map((book, i) => {
           return (
             <TouchableOpacity
               key={book.id}
@@ -29,7 +31,7 @@ class BookList extends Component {
                     style={styles.cardImage}
                     resizeMode="cover"
                     source={{
-                      uri: `${REACT_API_URL}/images/${book.image}`,
+                      uri: `${config.api_url}/images/${book.image}`,
                     }}
                   />
                   <View style={styles.cardsTextContainer}>

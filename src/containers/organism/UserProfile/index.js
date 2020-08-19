@@ -13,11 +13,12 @@ class UserProfile extends Component {
     return (
       <View style={styles.profileContainer}>
         <Button
-          icon={<Icon name="power-off" size={20} color="red" />}
+          iconRight
+          icon={<Icon name="sign-out" size={20} color="white" />}
           title="Sign Out"
           type="clear"
           containerStyle={{flex: 1, left: 140, top: -40}}
-          titleStyle={{marginLeft: 5, color: 'white'}}
+          titleStyle={{marginLeft: 5, color: 'white', marginRight: 5}}
           onPress={this.props.onPress}
         />
         <Avatar

@@ -1,12 +1,13 @@
 import axios from 'axios';
-import {REACT_API_URL} from '@env';
+// import {REACT_API_URL} from '@env';
+import {config} from '../../config/baseUrl';
 
 export const getAllBooks = (token, search, sortBy, sortType, page) => {
   return {
     type: 'GETALLBOOKS',
     payload: axios({
       method: 'GET',
-      url: `${REACT_API_URL}/books/`,
+      url: `${config.api_url}/books/`,
       params: {
         search: search,
         sortBy: sortBy || 'created_at',
@@ -25,9 +26,25 @@ export const getBookDetails = (token, id) => {
     type: 'GETBOOKDETAILS',
     payload: axios({
       method: 'GET',
-      url: `${REACT_API_URL}/books/${id}`,
+      url: `${config.api_url}/books/${id}`,
       headers: {
         Authorization: token,
+      },
+    }),
+  };
+};
+
+export const addBooks = (token, data) => {
+  return {
+    type: 'POSTBOOK',
+    payload: axios({
+      method: 'POST',
+      url: `${config.api_url}/books/`,
+      data: data,
+      headers: {
+        Authorization: token,
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
     }),
   };
@@ -38,7 +55,7 @@ export const borrowBooks = (token, id, data) => {
     type: 'BORROWBOOKS',
     payload: axios({
       method: 'PUT',
-      url: `${REACT_API_URL}/books/borrow/${id}`,
+      url: `${config.api_url}/books/borrow/${id}`,
       data: data,
       headers: {
         Authorization: token,
@@ -52,7 +69,7 @@ export const returnBooks = (token, id) => {
     type: 'RETURNBOOKS',
     payload: axios({
       method: 'PUT',
-      url: `${REACT_API_URL}/books/return/${id}`,
+      url: `${config.api_url}/books/return/${id}`,
       headers: {
         Authorization: token,
       },

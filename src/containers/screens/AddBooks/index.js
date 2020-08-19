@@ -1,20 +1,25 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Input, Button} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
+import {withNavigation} from '@react-navigation/compat';
+
+import ImagePicker from 'react-native-image-picker';
+
 import {connect} from 'react-redux';
 import {getGenre} from '../../../redux/actions/genres';
+import {getAuthor} from '../../../redux/actions/author';
 
 class AddBooks extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      image: '',
+      image: null,
       description: '',
       genre: '',
       author: '',
-      status: '',
+      status: 'Available',
     };
   }
 
@@ -33,11 +38,41 @@ class AddBooks extends Component {
       });
   };
 
+  getAllAuthors = async () => {
+    const token = this.props.auth.data.token;
+
+    await this.props
+      .getAuthor(token)
+      .then((response) => {
+        this.setState({
+          author: response.value.data.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  handleChooseImage = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.uri) {
+        this.setState({image: response});
+      }
+    });
+  };
+
   componentDidMount() {
     this.getAllGenres();
+    this.getAllAuthors();
+    this.props.genres.data;
+    this.props.author.data;
   }
 
   render() {
+    const {image} = this.state;
     return (
       <View style={{flex: 1, padding: 20}}>
         <View
@@ -70,8 +105,45 @@ class AddBooks extends Component {
               inputStyle={{fontSize: 14, flexWrap: 'wrap'}}
               label="Title"
               labelStyle={{marginBottom: -5}}
+              onChangeText={async (text) => await this.setState({title: text})}
               placeholder="Harry Potter and The Prisoner of Azkaban"
             />
+            <Text>Choose Genre :</Text>
+            <Picker
+              mode="dropdown"
+              selectedValue={this.state.genre}
+              onValueChange={async (value) => {
+                await this.setState({genre: value});
+              }}>
+              {this.props.genres.data.map((genre) => {
+                <Picker.Item label="--Choose Genre--" value="" />;
+                return (
+                  <Picker.Item
+                    key={genre.genre_id}
+                    label={genre.genre_name}
+                    value={genre.genre_id}
+                  />
+                );
+              })}
+            </Picker>
+            <Text>Choose Authors :</Text>
+            <Picker
+              mode="dropdown"
+              selectedValue={this.state.author}
+              onValueChange={async (value) => {
+                await this.setState({author: value});
+              }}>
+              {this.props.author.data.map((author) => {
+                <Picker.Item label="--Choose Author--" value="" />;
+                return (
+                  <Picker.Item
+                    key={author.author_id}
+                    label={author.author_name}
+                    value={author.author_id}
+                  />
+                );
+              })}
+            </Picker>
             <Input
               inputStyle={{fontSize: 14}}
               label="Description"
@@ -81,17 +153,16 @@ class AddBooks extends Component {
               Laudantium neque sapiente, dolorem eum animi nulla incidunt deleniti
               praesentium, quam minus ab?"
             />
-            <Picker
-              mode="dropdown"
-              selectedValue={this.state.genre}
-              onValueChange={async (value) => {
-                await this.setState({genre: value});
-              }}>
-              <Picker.Item label="--Choose Genre--" value="" />
-              {this.state.genre.data.map((genre) => {
-                return <Picker.Item label={genre.name} value={genre.id} />;
-              })}
-            </Picker>
+            <View
+              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              {image && (
+                <Image
+                  source={{uri: image.uri}}
+                  style={{width: 150, height: 300}}
+                />
+              )}
+              <Button title="Choose Photo" onPress={this.handleChooseImage} />
+            </View>
           </View>
         </View>
       </View>
@@ -103,8 +174,12 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   books: state.books,
   genres: state.genres,
+  author: state.author,
 });
 
-const mapDispatchToProps = {getGenre};
+const mapDispatchToProps = {getGenre, getAuthor};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBooks);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(AddBooks));

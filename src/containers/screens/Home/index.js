@@ -21,7 +21,12 @@ class Home extends Component {
       search: '',
       sortBy: '',
       sortType: '',
+      page: 1,
     };
+  }
+
+  componentDidMount() {
+    this.getAllBooks();
   }
 
   getAllBooks = async (search, sortBy, sortType, page) => {
@@ -29,9 +34,12 @@ class Home extends Component {
     await this.props
       .getAllBooks(token, search, sortBy, sortType, page)
       .then((response) => {
-        this.setState({
-          books: this.props.books.data.result,
-        });
+        this.setState((prevState, nextState) => ({
+          books:
+            page === 1
+              ? Array.from(this.props.books.data.result)
+              : [...this.state.books, ...this.props.books.data.result],
+        }));
       })
       .catch((error) => {
         console.log(error.response);
@@ -41,10 +49,6 @@ class Home extends Component {
         // }
       });
   };
-
-  componentDidMount() {
-    this.getAllBooks();
-  }
 
   updateSearch = () => {
     this.getAllBooks(this.state.search)
@@ -98,9 +102,9 @@ class Home extends Component {
                     }}>
                     <Picker.Item label="-- All Categories --" value="" />
                     <Picker.Item label="Title" value="title" />
-                    <Picker.Item label="Status" value="status" />
                     <Picker.Item label="Author" value="author" />
                     <Picker.Item label="Genre" value="genre" />
+                    <Picker.Item label="Status" value="status" />
                   </Picker>
                 </View>
 

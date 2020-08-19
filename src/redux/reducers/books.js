@@ -4,7 +4,7 @@ const initialState = {
   // isLoggedIn: false,
   errorMsg: '',
   data: {
-    'COUNT(*)': 0,
+    totalBooks: 0,
     result: [],
   },
 };
@@ -61,6 +61,27 @@ const books = (state = initialState, action) => {
         isError: false,
         // isLoggedIn: true,
         // data: action.payload.data.data,
+      };
+
+    /* POST BOOK */
+    case 'POSTBOOK_PENDING':
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case 'POSTBOOK_REJECTED':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMsg: 'Data Rejected!',
+      };
+    case 'POSTBOOK_FULFILLED':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
       };
 
     // Borrow Books

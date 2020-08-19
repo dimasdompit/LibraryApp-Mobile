@@ -8,7 +8,8 @@ import {withNavigation} from '@react-navigation/compat';
 import {connect} from 'react-redux';
 import {getAllBooks, borrowBooks} from '../../../redux/actions/books';
 
-import {REACT_API_URL} from '@env';
+// import {REACT_API_URL} from '@env';
+import {config} from '../../../config/baseUrl';
 
 class BookDetails extends Component {
   constructor(props) {
@@ -41,45 +42,49 @@ class BookDetails extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.cardDetails}>
-            <Image
-              source={{uri: `${REACT_API_URL}/images/${this.props.image}`}}
-              style={styles.image}
-            />
-            <View style={styles.outerDetails}>
-              <Text style={styles.titleDetails}>{this.props.title}</Text>
-              <Text style={styles.authorDetails}>- {this.props.author} -</Text>
-              <Text style={styles.genreDetails}>{this.props.genre}</Text>
-              <Text style={styles.statusDetails}>
-                Status :{' '}
-                <Text style={styles.statusSpan}>{this.props.status}</Text>
+      <>
+        <ScrollView style={{flex: 1, backgroundColor: '#f9f9f9'}}>
+          <View style={styles.container}>
+            <View style={styles.cardDetails}>
+              <Image
+                source={{uri: `${config.api_url}/images/${this.props.image}`}}
+                style={styles.image}
+              />
+              <View style={styles.outerDetails}>
+                <Text style={styles.titleDetails}>{this.props.title}</Text>
+                <Text style={styles.authorDetails}>
+                  - {this.props.author} -
+                </Text>
+                <Text style={styles.genreDetails}>{this.props.genre}</Text>
+                <Text style={styles.statusDetails}>
+                  Status :{' '}
+                  <Text style={styles.statusSpan}>{this.props.status}</Text>
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.descriptionHeading}>Summary</Text>
+              <Text style={styles.descriptionDetails}>
+                {this.props.description}
               </Text>
             </View>
           </View>
-
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionHeading}>Summary</Text>
-            <Text style={styles.descriptionDetails}>
-              {this.props.description}
-            </Text>
-          </View>
-          <View>
-            <Button
-              title="Borrow"
-              titleStyle={{
-                textTransform: 'uppercase',
-                fontFamily: 'SFProText-Bold',
-              }}
-              loading={this.props.books.isLoading}
-              disabled={this.props.status === 'Not Available' ? true : false}
-              buttonStyle={styles.btnBorrow}
-              onPress={() => this.handleBorrow(this.props.id)}
-            />
-          </View>
+        </ScrollView>
+        <View style={{height: 60, backgroundColor: '#f9f9f9'}}>
+          <Button
+            title="Borrow"
+            titleStyle={{
+              textTransform: 'uppercase',
+              fontFamily: 'SFProText-Bold',
+            }}
+            loading={this.props.books.isLoading}
+            disabled={this.props.status === 'Not Available' ? true : false}
+            buttonStyle={styles.btnBorrow}
+            onPress={() => this.handleBorrow(this.props.id)}
+          />
         </View>
-      </ScrollView>
+      </>
     );
   }
 }
