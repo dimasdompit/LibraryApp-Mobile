@@ -20,7 +20,7 @@
     "axios": "^0.19.2",
     "babel-plugin-dotenv-import": "^2.1.0",
     "moment": "^2.27.0",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "react": "16.13.1",
     "react-moment": "^0.9.7",
     "react-native": "0.63.0",
